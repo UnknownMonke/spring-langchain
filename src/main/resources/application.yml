@@ -1,0 +1,57 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    org:
+      hibernate: INFO
+      springframework:
+        web: DEBUG
+    com:
+      zaxxer:
+        hikari: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, beans, env
+
+spring:
+  application:
+    name: spring-langchain
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+    show_sql: true
+    hibernate:
+      ddl-auto: create-drop
+
+  datasource:
+    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    password: aa
+
+  sql:
+    init:
+      encoding: UTF-8
+      mode: always
+      data-locations: classpath:/static/data.sql
+      schema-locations: classpath:/static/schema.sql  # Uncomment if needed
+
+  h2:
+    console:
+      enabled: true
+      path: /console
+      settings:
+        web-allow-others: false
+
+langchain4j:
+  ollama:
+    chat-model:
+      base-url: http://localhost:11434
+      model-name: llama3.1:8b-instruct-q4_0
+      log-requests: false
+      log-responses: false
